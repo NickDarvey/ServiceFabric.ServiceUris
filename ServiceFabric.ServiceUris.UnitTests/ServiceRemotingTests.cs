@@ -28,5 +28,15 @@ namespace NickDarvey.ServiceFabric.ServiceUris.UnitTests
 
             Assert.Equal(new Uri("fabric:/Application/Name/And/Service/Name"), result);
         }
+
+        [Fact]
+        public void ToServiceRemoting_Returns_ServiceUri_When_ServiceRemoting()
+        {
+            var original = new Uri("fabric:/Application/Name/And/Service/Name");
+
+            var result = original.ToServiceRemotingServiceUri();
+
+            Assert.Equal(new Uri("fabric:/Application/Name/And/Service/Name"), result);
+        }
     }
 }

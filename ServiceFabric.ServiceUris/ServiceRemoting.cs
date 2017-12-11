@@ -12,20 +12,24 @@ namespace NickDarvey.ServiceFabric.ServiceUris
         /// <exception cref="ArgumentException">Unable to validate the <paramref name="serviceUri"/></exception>
         /// <exception cref="UriFormatException">Unable to build a valid URI using the <paramref name="serviceUri"/></exception>
         public static Uri ToServiceRemotingServiceUri(this Uri serviceUri) =>
-            serviceUri.IsAbsoluteUri == false ? ServiceRemotingFromRelative(serviceUri)
-            : serviceUri.HostNameType == UriHostNameType.Dns ? ServiceRemotingFromReverseProxy(serviceUri)
+            serviceUri.IsAbsoluteUri == false ? AddRelativeAddress(serviceUri)
+            : ReverseProxy.IsReverseProxyServiceUri(serviceUri) ? AddPathAndQuery(serviceUri)
+            : ServiceRemoting.IsServiceRemotingUri(serviceUri) ? serviceUri
             : throw new ArgumentException($"Cannot convert '{serviceUri}' to a reverse proxy service URI");
+
+        internal static bool IsServiceRemotingUri(Uri serviceUri) =>
+            serviceUri.Scheme == "fabric";
 
         /// <summary>
         /// http://localhost:19080/X/Y --> fabric:/X/Y
         /// </summary>
-        private static Uri ServiceRemotingFromReverseProxy(Uri serviceUri) =>
+        private static Uri AddPathAndQuery(Uri serviceUri) =>
             new Uri("fabric:/" + serviceUri.PathAndQuery.TrimStart('/'));
 
         /// <summary>
         /// /X/Y --> fabric:/X/Y
         /// </summary>
-        private static Uri ServiceRemotingFromRelative(Uri serviceUri) =>
+        private static Uri AddRelativeAddress(Uri serviceUri) =>
             new Uri("fabric:/" + serviceUri.OriginalString.TrimStart('/'));
     }
 }

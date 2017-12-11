@@ -13,21 +13,26 @@ namespace NickDarvey.ServiceFabric.ServiceUris
         /// <exception cref="ArgumentException">Unable to validate the <paramref name="serviceUri"/> and <paramref name="baseAddress"/></exception>
         /// <exception cref="UriFormatException">Unable to build a valid URI using the <paramref name="serviceUri"/> and <paramref name="baseAddress"/></exception>
         public static Uri ToReverseProxyServiceUri(this Uri serviceUri, Uri baseAddress) =>
-            serviceUri.IsAbsoluteUri == false ? ReverseProxyFromRelative(serviceUri, baseAddress)
-            : serviceUri.Scheme == "fabric" ? ReverseProxyFromServiceRemoting(serviceUri, baseAddress)
+            serviceUri.IsAbsoluteUri == false ? AddRelativeAddress(serviceUri, baseAddress)
+            : ServiceRemoting.IsServiceRemotingUri(serviceUri) ? ReplaceBaseAddress(serviceUri, baseAddress)
+            : ReverseProxy.IsReverseProxyServiceUri(serviceUri) ? ReplaceBaseAddress(serviceUri, baseAddress)
             : throw new ArgumentException($"Cannot convert '{serviceUri}' to a reverse proxy service URI");
 
+        internal static bool IsReverseProxyServiceUri(Uri serviceUri) =>
+            serviceUri.HostNameType == UriHostNameType.Dns;
+
         /// <summary>
-        /// fabric:/X/Y --> baseAddressScheme://baseAddressHostName/X/Y
+        /// fabric:/X/Y --> baseAddressScheme://baseAddressHostName/X/Y,
+        /// oldBaseAddressScheme://oldBaseAddressHostName/X/Y --> newBaseAddressScheme://newBaseAddressHostName/X/Y
         /// </summary>
-        private static Uri ReverseProxyFromServiceRemoting(Uri serviceUri, Uri baseAddress) =>
+        private static Uri ReplaceBaseAddress(Uri serviceUri, Uri baseAddress) =>
             Uri.TryCreate(baseAddress, serviceUri.PathAndQuery, out var result) ? result
             : throw new UriFormatException($"Couldn't create a reverse proxy service URI using '{baseAddress}' and '{serviceUri.PathAndQuery}'");
 
         /// <summary>
         /// /X/Y --> baseAddressScheme://baseAddressHostName/X/Y
         /// </summary>
-        private static Uri ReverseProxyFromRelative(Uri serviceUri, Uri baseAddress) =>
+        private static Uri AddRelativeAddress(Uri serviceUri, Uri baseAddress) =>
             Uri.TryCreate(baseAddress, serviceUri.OriginalString, out var result) ? result
             : throw new UriFormatException($"Couldn't create a reverse proxy service URI using '{baseAddress}' and '{serviceUri.OriginalString}'");
     }

@@ -9,11 +9,11 @@
     <Company>Nick Darvey</Company>
     <Product>ServiceFabric.ServiceUris</Product>
     <Description>Sometimes you use Service Remoting, sometimes you use HTTP and sometimes you use both. This library has transformations from Service Remoting URIs to reverse proxy URIs and vice versa.</Description>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>Handles Service-Remoting-to-Service-Remoting and reverse-proxy-to-reverse-proxy just in case you don't know the input.</PackageReleaseNotes>
     <PackageLicenseUrl>https://github.com/NickDarvey/ServiceFabric.ServiceUris/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/NickDarvey/ServiceFabric.ServiceUris</PackageProjectUrl>
     <RepositoryUrl>https://github.com/NickDarvey/ServiceFabric.ServiceUris</RepositoryUrl>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <PackageTags>service fabric service remoting reverse proxy</PackageTags>
   </PropertyGroup>

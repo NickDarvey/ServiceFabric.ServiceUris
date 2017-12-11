@@ -26,5 +26,15 @@ namespace NickDarvey.ServiceFabric.ServiceUris.UnitTests
 
             Assert.Equal(new Uri("https://localhost:19080/Application/Name/And/Service/Name"), result);
         }
+
+        [Fact]
+        public void ToReverseProxy_Returns_ServiceUri_When_ReverseProxy()
+        {
+            var original = new Uri("https://localhost:0000/Application/Name/And/Service/Name");
+
+            var result = original.ToReverseProxyServiceUri(new Uri("https://localhost:19080"));
+
+            Assert.Equal(new Uri("https://localhost:19080/Application/Name/And/Service/Name"), result);
+        }
     }
 }
