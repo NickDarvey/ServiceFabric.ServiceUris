@@ -1,4 +1,4 @@
-version: {build}
+version: '{build}'
 image: Visual Studio 2017
 configuration: Release
 before_build:
@@ -9,3 +9,9 @@ build:
 artifacts:
 - path: /.*\.nupkg/
   name: NuGet Package
+deploy:
+  provider: NuGet
+  api_key:
+    secure: tH3DhfLidY7oekSNx32ehYWvgbKUBovka+AXhZb7tFIiYvhLTHYvX8sLQkMNVRLp
+  skip_symbols: true
+  artifact: /.*\.nupkg/
