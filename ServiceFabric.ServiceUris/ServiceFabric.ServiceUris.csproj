@@ -13,9 +13,11 @@
     <PackageLicenseUrl>https://github.com/NickDarvey/ServiceFabric.ServiceUris/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/NickDarvey/ServiceFabric.ServiceUris</PackageProjectUrl>
     <RepositoryUrl>https://github.com/NickDarvey/ServiceFabric.ServiceUris</RepositoryUrl>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <PackageTags>service fabric service remoting reverse proxy</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/NickDarvey/Brand/master/Logos/NickDarvey.Dark.512.png</PackageIconUrl>
+    <FileVersion>0.3.0.0</FileVersion>
   </PropertyGroup>
 
 </Project>
